@@ -1,0 +1,15 @@
+raku.pro.user
+*.autosave
+*.stash
+*.o
+raku.app*
+raku
+raku.cfg
+raku.log
+Makefile
+
+# Qt generated files
+ui_*.h
+moc_*.h
+moc_*.cpp
+qrc_*.cpp
