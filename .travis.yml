@@ -8,9 +8,9 @@ matrix:
     - os: linux
       compiler: gcc
       install:
-        - sudo apt-get install -y qt5-default qttools5-dev-tools
+        - sudo apt-get install -y qt5-qmake qt5-default qttools5-dev-tools qtbase5-dev
       script:
-        - qmake -config release
+        - qmake
         - make -j2
 
     - os: osx
