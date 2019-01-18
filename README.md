@@ -6,7 +6,7 @@
 ## About
 
 raku is a cross-platform image editing tool, designed specifically to export indexed png images
-of various bit depths.
+of various bit depths. For a rough list of outstanding features, see [TODO.md](TODO.md).
 
 ## Installing
 
@@ -41,7 +41,7 @@ with `qtdiag`.
 sudo apt-get install qt5-default
 qmake
 make
-./porymap
+./raku
 ```
 
 #### Windows
