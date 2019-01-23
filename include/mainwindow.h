@@ -6,6 +6,7 @@
 
 #include "editor.h"
 #include "colorbox.h"
+#include "imageview.h"
 
 namespace Ui {
 class MainWindow;
@@ -24,7 +25,9 @@ private:
     Editor *editor;
 
     QList<QColor>  palette;
-    QList<ColorBox*> colorBlocks; 
+    QList<ColorBox*> colorBlocks;
+
+    QList<ImageView*> openImages;
 
     void initialize();
     void restore();
@@ -32,6 +35,9 @@ private:
     void setupWidgets();
 
     void setupPaletteViewer(int nColors);
+    void setupPaletteViewer(QVector<QColor> *palette);
+
+    int selectedColor = 0;
 
     void updatePaletteColors(int nColors);
     void updatePaletteColor(int index);
@@ -39,8 +45,8 @@ private:
 private slots:
     void on_action_New_triggered();
     void on_action_Open_triggered();
-    void on_action_Save_triggered();
-    void on_action_SaveAs_triggered();
+    void on_action_SaveAll_triggered();
+    //void on_action_SaveAs_triggered();
     void colorClicked(int index);
 };
 

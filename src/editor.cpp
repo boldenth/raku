@@ -6,3 +6,15 @@ Editor::Editor(Ui::MainWindow* ui)
 {
     this->ui = ui;
 }
+
+
+
+
+
+
+
+
+
+
+
+

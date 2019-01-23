@@ -1,7 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QRandomGenerator>
+#include <QFileDialog>
+#include <QRandomGenerator> // ugh why can't linux builds find this
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -30,7 +31,9 @@ void MainWindow::initialize() {
 void MainWindow::setupWidgets() {
     //
     this->editor = new Editor(ui);
-    setupPaletteViewer(16);
+    //setupPaletteViewer(16);
+
+    //this->ui->scrollArea_Image->setDockNestingEnabled(true);
 }
 
 // TODO: move to editor scope
@@ -55,13 +58,50 @@ void MainWindow::setupPaletteViewer(int nColors) {
             this->colorClicked(i);
         });
 
-        QColor rcolor = QColor::fromRgb(QRandomGenerator::global()->generate());// temp
+        QColor rcolor = Qt::gray;
         QString stylesheet = QString("background-color: rgb(%1, %2, %3);")
             .arg(rcolor.red())
             .arg(rcolor.green())
             .arg(rcolor.blue());
 
         colorBlocks[i]->setStyleSheet(stylesheet);
+    }
+
+    this->ui->groupBox_Palette->setLayout(paletteViewer);
+}
+
+void MainWindow::setupPaletteViewer(QVector<QColor> *palette) {
+    //
+    int nColors = palette->size();
+
+    QGridLayout *paletteViewer = new QGridLayout;
+    paletteViewer->setSpacing(0);
+    paletteViewer->setContentsMargins(0,0,0,0);
+
+    // TODO: find good formulas for this
+    int size = 512 / nColors;
+    int width = nColors / 8 ? nColors / 8 : 2;
+
+    // connect to mouseGrabber for reordering?
+    for (int i = 0; i < nColors; i++) {
+        //
+        colorBlocks.append(new ColorBox);
+        colorBlocks[i]->setFixedSize(size, size);
+        paletteViewer->addWidget(colorBlocks[i], i / width, i % width);
+
+        connect(colorBlocks[i], &ColorBox::leftButtonClicked, this, [=]() {
+            this->colorClicked(i);
+        });
+
+        QColor color = palette->at(i);
+        //if (color == Qt::black) color = Qt::darkGray;
+        QString stylesheet = QString("background-color: rgb(%1, %2, %3);")
+            .arg(color.red())
+            .arg(color.green())
+            .arg(color.blue());
+
+        colorBlocks[i]->setStyleSheet(stylesheet);
+        colorBlocks[i]->setMidLineWidth(3);
     }
 
     this->ui->groupBox_Palette->setLayout(paletteViewer);
@@ -76,7 +116,7 @@ void MainWindow::updatePaletteColors(int nColors) {
 
 void MainWindow::updatePaletteColor(int i) {
     //
-    int red, green, blue;
+    int red = 250, green = 200, blue = 255;
     QString stylesheet = QString("background-color: rgb(%1, %2, %3);")
             .arg(red)
             .arg(green)
@@ -132,8 +172,12 @@ void MainWindow::updatePaletteColor(int i) {
 
 
 void MainWindow::colorClicked(int index) {
-    //
-    qDebug() << "clicked on color" << index;
+    // "highlight" the color box and clear the currently highlighted
+    if (index > colorBlocks.size() - 1) return;// should never happen but just in case
+
+    colorBlocks[selectedColor]->setFrameStyle(QFrame::NoFrame);
+    colorBlocks[index]->setFrameStyle(QFrame::Box | QFrame::Raised);
+    this->selectedColor = index;
 }
 
 void MainWindow::on_action_New_triggered() {
@@ -142,15 +186,30 @@ void MainWindow::on_action_New_triggered() {
 
 void MainWindow::on_action_Open_triggered() {
     //
+    QString imgFile = QFileDialog::getOpenFileName(this, "Open File", ".", "Images (*.png *.*bpp)");
+
+    this->openImages.append(new ImageView(this->ui->scrollArea_Image, imgFile));
+    this->openImages[openImages.size() - 1]->setAttribute(Qt::WA_DeleteOnClose);
+    this->openImages[openImages.size() - 1]->show();
+    this->setupPaletteViewer(openImages[openImages.size() - 1]->image->palette);
+/*
+    if (!this->openImages[openImages.size() - 1]->isVisible()) {
+        this->openImages[openImages.size() - 1]->show();
+    } else if (this->openImages[openImages.size() - 1]->isMinimized()) {
+        this->openImages[openImages.size() - 1]->showNormal();
+    } else {
+        this->openImages[openImages.size() - 1]->activateWindow();
+    }
+//*/
 }
 
-void MainWindow::on_action_Save_triggered() {
+void MainWindow::on_action_SaveAll_triggered() {
     //
 }
 
-void MainWindow::on_action_SaveAs_triggered() {
+//void MainWindow::on_action_SaveAs_triggered() {
     //
-}
+//}
 
 
 
