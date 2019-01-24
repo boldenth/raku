@@ -1,6 +1,7 @@
 #ifndef GUARD_COLORBOX_H
 #define GUARD_COLORBOX_H
 
+#include <QColor>
 #include <QFrame>
 #include <QMouseEvent>
 
@@ -12,6 +13,7 @@ class ColorBox : public QFrame
 public:
 
     ColorBox(QWidget *parent = Q_NULLPTR);
+    QColor color;
 
 private slots:
 

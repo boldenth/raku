@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 
 #include <QFileDialog>
-#include <QRandomGenerator> // ugh why can't linux builds find this
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -92,6 +91,9 @@ void MainWindow::setupPaletteViewer(QVector<QColor> *palette) {
         connect(colorBlocks[i], &ColorBox::leftButtonClicked, this, [=]() {
             this->colorClicked(i);
         });
+        connect(colorBlocks[i], &ColorBox::rightButtonClicked, this, [=]() {
+            this->colorChange(i);
+        });
 
         QColor color = palette->at(i);
         //if (color == Qt::black) color = Qt::darkGray;
@@ -102,6 +104,8 @@ void MainWindow::setupPaletteViewer(QVector<QColor> *palette) {
 
         colorBlocks[i]->setStyleSheet(stylesheet);
         colorBlocks[i]->setMidLineWidth(3);
+
+        this->rgbpal.append(color.rgb());
     }
 
     this->ui->groupBox_Palette->setLayout(paletteViewer);
@@ -110,18 +114,18 @@ void MainWindow::setupPaletteViewer(QVector<QColor> *palette) {
 void MainWindow::updatePaletteColors(int nColors) {
     //
     for (int i = 0; i < nColors; i++) {
-        updatePaletteColor(i);
+        updatePaletteColor(i, Qt::white);
     }
 }
 
-void MainWindow::updatePaletteColor(int i) {
+void MainWindow::updatePaletteColor(int i, QColor color) {
     //
-    int red = 250, green = 200, blue = 255;
     QString stylesheet = QString("background-color: rgb(%1, %2, %3);")
-            .arg(red)
-            .arg(green)
-            .arg(blue);
+            .arg(color.red())
+            .arg(color.green())
+            .arg(color.blue());
     this->colorBlocks[i]->setStyleSheet(stylesheet);
+    this->openImages[openImages.size() - 1]->image->setColorTable(this->rgbpal);
 }
 
 
@@ -180,13 +184,22 @@ void MainWindow::colorClicked(int index) {
     this->selectedColor = index;
 }
 
+// use open image member
+void MainWindow::colorChange(int index) {
+    //
+    colorClicked(index);
+    QColor newColor = QColorDialog::getColor(this->openImages[openImages.size() - 1]->image->palette->at(index));
+    updatePaletteColor(index, newColor);
+}
+
 void MainWindow::on_action_New_triggered() {
     //
 }
 
 void MainWindow::on_action_Open_triggered() {
     //
-    QString imgFile = QFileDialog::getOpenFileName(this, "Open File", ".", "Images (*.png *.*bpp)");
+    QString imgFile = QFileDialog::getOpenFileName(this, "Open File", ".", "Images (*.png *.bmp)");// *.*bpp 
+    if (imgFile.isEmpty()) return;
 
     this->openImages.append(new ImageView(this->ui->scrollArea_Image, imgFile));
     this->openImages[openImages.size() - 1]->setAttribute(Qt::WA_DeleteOnClose);
