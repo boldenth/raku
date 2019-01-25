@@ -30,6 +30,7 @@ public:
     }
     //*
     //*/
+    friend class ImageView;
 
     // TODO: make private and use access function
     QVector<QColor> *palette = nullptr;

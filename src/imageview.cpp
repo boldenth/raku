@@ -1,5 +1,6 @@
 #include "imageview.h"
 #include "ui_imageview.h"
+#include "iohandler.h"
 
 #include <QMenu>
 #include <QLayout>
@@ -50,9 +51,8 @@ ImageView::~ImageView()
 
 void ImageView::closeEvent(QCloseEvent *event) {
     //~ImageView;
-    qDebug() << "ImageView::closeEvent";
     QDockWidget::closeEvent(event);
-    qDebug() << "delete this";
+    //saveJASCPal(this->image->path + "palette.pal", *this->image->palette);
 }
 
 
