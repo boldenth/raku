@@ -8,6 +8,7 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QMouseEvent>
 #include <QCloseEvent>
 
 namespace Ui {
@@ -32,7 +33,16 @@ public:
 private:
     Ui::ImageView *ui;
 
+    QPoint origin;
+
     void close();
+
+protected:
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void hoverEnterEvent(QHoverEvent *event);
+    void hoverLeaveEvent(QHoverEvent *event);
 
 public slots:
 

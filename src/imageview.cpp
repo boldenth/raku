@@ -39,6 +39,9 @@ ImageView::ImageView(QWidget *parent, QString imgFile) :
     this->setStyleSheet(stylesheet);
 
     //connect(this->ui->dockWidget, &QDockWidget::dockLocationChanged, this, &ImageView::close);
+    this->setMouseTracking(false);
+    this->setAttribute(Qt::WA_Hover);
+    //this->setAcceptHoverEvents(true);
 }
 
 ImageView::~ImageView()
@@ -53,12 +56,39 @@ void ImageView::closeEvent(QCloseEvent *event) {
     //~ImageView;
     emit shouldDeletePalette();
     QDockWidget::closeEvent(event);
-    //saveJASCPal(this->image->path + "palette.pal", *this->image->palette);
+    //saveJASCPal(this->image->path + "_palette.pal", *this->image->palette);
 }
 
+void ImageView::mousePressEvent(QMouseEvent *event) {
+    //
+    this->origin = event->globalPos();
 
+    setCursor(Qt::ClosedHandCursor);
+}
 
+void ImageView::mouseMoveEvent(QMouseEvent *event) {
+    //
+    const QPoint delta = event->globalPos() - origin;
 
+    this->move(this->x() + delta.x(), this->y() + delta.y());
+
+    this->origin = event->globalPos();
+}
+
+void ImageView::mouseReleaseEvent(QMouseEvent *event) {
+    //
+    unsetCursor();
+}
+
+void ImageView::hoverEnterEvent(QHoverEvent *event) {
+    //
+    setCursor(Qt::OpenHandCursor);
+}
+
+void ImageView::hoverLeaveEvent(QHoverEvent *event) {
+    //
+    unsetCursor();
+}
 
 
 
