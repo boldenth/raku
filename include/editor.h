@@ -54,6 +54,7 @@ public:
     void colorClicked(int index);
     void colorChange(int index);
 
+    void setActivePalette(int index);
     void setupPaletteViewer(QVector<QColor> *palette);
     void deletePaletteViewer();
     void updatePaletteColors(int nColors);

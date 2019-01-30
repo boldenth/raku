@@ -11,6 +11,8 @@
 #include <QMouseEvent>
 #include <QCloseEvent>
 
+#include <QDebug>
+
 namespace Ui {
 class ImageView;
 }
@@ -29,6 +31,17 @@ public:
     Image *image = nullptr;
     QImage img;
     QPixmap pixmap;
+
+    bool eventFilter(QObject *watched, QEvent *event)
+    {
+        if(event->type() == QMouseEvent::HoverEnter) {
+            setCursor(Qt::OpenHandCursor);
+        }
+        else if(event->type() == QMouseEvent::HoverLeave) {
+            unsetCursor();
+        }
+        return false;
+    }
 
 private:
     Ui::ImageView *ui;

@@ -11,9 +11,12 @@ Editor::Editor(Ui::MainWindow* ui)
 
 
 void Editor::deletePaletteViewer() {
+    QLayout *layout = ui->groupBox_Palette->layout();
+
     for (auto widget : ui->groupBox_Palette->findChildren<QWidget*>())
         delete widget;
 
+    delete layout;
     // TODO: call setupPaletteViewer on new last image?
 }
 
@@ -73,7 +76,7 @@ void Editor::updatePaletteColor(int i, QColor color) {
             .arg(color.green())
             .arg(color.blue());
     this->colorBlocks[i]->setStyleSheet(stylesheet);
-    this->openImages[openImages.size() - 1]->image->setColorTable(this->rgbpal);
+    this->openImages.last()->image->setColorTable(this->rgbpal);
 }
 
 void Editor::colorClicked(int index) {
@@ -89,7 +92,7 @@ void Editor::colorClicked(int index) {
 void Editor::colorChange(int index) {
     //
     colorClicked(index);
-    QColor newColor = QColorDialog::getColor(this->openImages[openImages.size() - 1]->image->palette->at(index));
+    QColor newColor = QColorDialog::getColor(this->openImages.last()->image->palette->at(index));
     updatePaletteColor(index, newColor);
 }
 

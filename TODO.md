@@ -9,4 +9,4 @@
 - export palette to file
 - right click on color opens window to change it
 - drag ImageView to move within widget
-- 
+- BUG: fix crash when opening image after closing image

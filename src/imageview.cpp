@@ -41,6 +41,7 @@ ImageView::ImageView(QWidget *parent, QString imgFile) :
     //connect(this->ui->dockWidget, &QDockWidget::dockLocationChanged, this, &ImageView::close);
     this->setMouseTracking(false);
     this->setAttribute(Qt::WA_Hover);
+    this->installEventFilter(this);
     //this->setAcceptHoverEvents(true);
 }
 
@@ -82,6 +83,7 @@ void ImageView::mouseReleaseEvent(QMouseEvent *event) {
 
 void ImageView::hoverEnterEvent(QHoverEvent *event) {
     //
+    qDebug() << "hoverEnter";
     setCursor(Qt::OpenHandCursor);
 }
 
