@@ -84,9 +84,12 @@ void MainWindow::on_action_Open_triggered() {
     if (imgFile.isEmpty()) return;
 
     this->editor->openImages.append(new ImageView(this->ui->scrollArea_Image, imgFile));
-    this->editor->openImages[editor->openImages.size() - 1]->setAttribute(Qt::WA_DeleteOnClose);
-    this->editor->openImages[editor->openImages.size() - 1]->show();
-    this->editor->setupPaletteViewer(editor->openImages[editor->openImages.size() - 1]->image->palette);
+    this->editor->openImages.last()->setAttribute(Qt::WA_DeleteOnClose);
+    this->editor->openImages.last()->show();
+    this->editor->setupPaletteViewer(editor->openImages.last()->image->palette);
+
+    // use .last() instead of editor->openImages[editor->openImages.size() - 1]
+    connect(editor->openImages.last(), &ImageView::shouldDeletePalette, this->editor, &Editor::deletePaletteViewer);
 /*
     if (!this->editor->openImages[editor->openImages.size() - 1]->isVisible()) {
         this->editor->openImages[editor->openImages.size() - 1]->show();

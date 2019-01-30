@@ -34,9 +34,12 @@ private:
 
     void close();
 
-private slots:
+public slots:
 
     void closeEvent(QCloseEvent *event);
+
+signals:
+    void shouldDeletePalette();
 };
 
 #endif // IMAGEVIEW_H

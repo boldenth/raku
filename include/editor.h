@@ -12,7 +12,6 @@
 #include "colorbox.h"
 #include "imageview.h"
 #include "image.h"
-//#include "mainwindow.h"
 #include "ui_mainwindow.h"
 
 /*
@@ -56,6 +55,7 @@ public:
     void colorChange(int index);
 
     void setupPaletteViewer(QVector<QColor> *palette);
+    void deletePaletteViewer();
     void updatePaletteColors(int nColors);
     void updatePaletteColor(int i, QColor color);
 

@@ -51,6 +51,7 @@ ImageView::~ImageView()
 
 void ImageView::closeEvent(QCloseEvent *event) {
     //~ImageView;
+    emit shouldDeletePalette();
     QDockWidget::closeEvent(event);
     //saveJASCPal(this->image->path + "palette.pal", *this->image->palette);
 }

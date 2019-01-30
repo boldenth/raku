@@ -1,6 +1,6 @@
 #include "editor.h"
 
-
+#include <QDebug>
 
 Editor::Editor(Ui::MainWindow* ui)
 {
@@ -10,7 +10,12 @@ Editor::Editor(Ui::MainWindow* ui)
 
 
 
+void Editor::deletePaletteViewer() {
+    for (auto widget : ui->groupBox_Palette->findChildren<QWidget*>())
+        delete widget;
 
+    // TODO: call setupPaletteViewer on new last image?
+}
 
 void Editor::setupPaletteViewer(QVector<QColor> *palette) {
     //
