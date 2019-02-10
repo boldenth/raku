@@ -37,9 +37,6 @@ public:
     QList<ColorBox*> colorBlocks;
     QList<ImageView*> openImages;
 
-    double scale_exp  = 0;
-    double scale_base = sqrt(2); // adjust scale factor with this
-
     int selectedColor = 0;
     int focusedImage = -1;// index of open color
 
@@ -53,6 +50,8 @@ public:
     void displayImage();
     void updateImage();
     void updateView();
+    void zoomInCurrentImage();
+    void zoomOutCurrentImage();
 
     void colorClicked(int index);
     void colorChange(int index);

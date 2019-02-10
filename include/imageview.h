@@ -10,6 +10,7 @@
 #include <QGraphicsScene>
 #include <QMouseEvent>
 #include <QCloseEvent>
+#include <math.h>
 
 #include <QDebug>
 
@@ -30,6 +31,11 @@ public:
 
     Image *image = nullptr;
     QPixmap pixmap;
+
+    double scale_exp  = 1.0;
+    double scale_base = 2.0;//sqrt(2); // adjust scale factor with this
+
+    bool showGrid = false;
 
     bool eventFilter(QObject *object, QEvent *event)
     {

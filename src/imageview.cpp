@@ -20,8 +20,7 @@ ImageView::ImageView(QWidget *parent, QString imgFile) :
     this->setAllowedAreas(Qt::TopDockWidgetArea);
 
     this->image = new Image(imgFile);
-    connect(image, &Image::mouseEvent, this, &ImageView::mouseEvent_image);/*map_item, SIGNAL(mouseEvent(QGraphicsSceneMouseEvent*,MapPixmapItem*)),
-            this, SLOT(mouseEvent_map(QGraphicsSceneMouseEvent*,MapPixmapItem*)));*/
+    connect(image, &Image::mouseEvent, this, &ImageView::mouseEvent_image);
 
     this->view = new QGraphicsView();
     this->scene = new QGraphicsScene();
@@ -59,6 +58,8 @@ ImageView::ImageView(QWidget *parent, QString imgFile) :
     this->setMouseTracking(false);
     this->setAttribute(Qt::WA_Hover);
 
+    this->setWindowTitle(imgFile.split("/").last());
+
     //installEventFilter(this);
 }
 
@@ -71,11 +72,9 @@ ImageView::~ImageView()
 }
 
 void ImageView::closeEvent(QCloseEvent *event) {
-    //~ImageView;
     emit shouldDeletePalette();
     // emit decrease index
     QDockWidget::closeEvent(event);
-    //saveJASCPal(this->image->path + "_palette.pal", *this->image->palette);
 }
 
 // TODO: check whether inside scene or not? or just activate on titleBarWidget?
@@ -100,10 +99,21 @@ void ImageView::mouseMoveEvent(QMouseEvent *event) {
     //
     if (!(event->buttons() & Qt::LeftButton)) return;
 
-    //if (event->localPos().x() <= 0 || event->localPos().y() <= 0) return;
+    //qDebug() << "globalPos" << event->globalPos();
 
-    const QPoint delta = event->globalPos() - origin;
-    this->move(this->x() + delta.x(), this->y() + delta.y());
+    const QPoint delta = event->globalPos() - this->origin;
+
+    int x = this->x() + delta.x();
+    x = x > 0 ? x : this->x();
+
+    int y = this->y() + delta.y();
+    y = y > 0 ? y : this->y();
+
+    // TODO: figure out how to only move when cursor is over the widget
+    //if (event->localPos().x() < this->x()) x = 0;
+    //if (event->localPos().y() < this->y()) y = 0;
+
+    this->move(x, y);
     this->origin = event->globalPos();
 }
 

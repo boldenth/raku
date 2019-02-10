@@ -15,11 +15,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QCoreApplication::setApplicationName("raku");
     QApplication::setApplicationDisplayName("raku");
 
-    QShortcut *shortcut_zoom_in = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this);
-    connect(shortcut_zoom_in, &QShortcut::activated, this, &MainWindow::zoomInCurrentImage);
-    QShortcut *shortcut_zoom_out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this);
-    connect(shortcut_zoom_out, &QShortcut::activated, this, &MainWindow::zoomOutCurrentImage);
-
     this->initialize();
 }
 
@@ -38,25 +33,14 @@ void MainWindow::initialize() {
 void MainWindow::setupWidgets() {
     //
     this->editor = new Editor(ui);
+
+    QShortcut *shortcut_zoom_in = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this);
+    connect(shortcut_zoom_in, &QShortcut::activated, this->editor, &Editor::zoomInCurrentImage);
+    QShortcut *shortcut_zoom_out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this);
+    connect(shortcut_zoom_out, &QShortcut::activated, this->editor, &Editor::zoomOutCurrentImage);
     //setupPaletteViewer(16);
 
     //this->ui->scrollArea_Image->setDockNestingEnabled(true);
-}
-
-void MainWindow::zoomInCurrentImage() {
-    //
-    if (editor->imageOpen) {
-        //
-    }
-    qDebug() << "zoomInCurrentImage";
-}
-
-void MainWindow::zoomOutCurrentImage() {
-    //
-    if (editor->imageOpen) {
-        //
-    }
-    qDebug() << "zoomOutCurrentImage";
 }
 
 void MainWindow::on_action_New_triggered() {
