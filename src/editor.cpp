@@ -108,38 +108,9 @@ void Editor::colorChange(int index) {
     QColor newColor = QColorDialog::getColor(this->openImages.last()->image->palette->at(index));
     updatePaletteColor(index, newColor);
 }
-/*
-    double scale = pow(3.0, static_cast<double>(value - 30) / 30.0);
 
-    QMatrix matrix;
-    matrix.scale(scale, scale);
-    QSize size(editor->metatile_selector_item->pixmap().width(), 
-               editor->metatile_selector_item->pixmap().height());
-    size *= scale;
-
-    ui->graphicsView_Metatiles->setResizeAnchor(QGraphicsView::NoAnchor);
-    ui->graphicsView_Metatiles->setMatrix(matrix);
-    ui->graphicsView_Metatiles->setFixedSize(size.width() + 2, size.height() + 2);
-
-    //
-
-    bool zoom_in = val > scaleCityMapTiles ? true : false;
-    scaleCityMapTiles = val;
-
-    this->ui->graphicsView_City_Map_Tiles->setFixedSize(this->city_map_selector_item->pixelWidth * pow(scaleUpFactor, scaleCityMapTiles - 1) + 2,
-                                                        this->city_map_selector_item->pixelHeight * pow(scaleUpFactor, scaleCityMapTiles - 1) + 2);
-
-    if (zoom_in) {
-        this->ui->graphicsView_City_Map_Tiles->scale(scaleUpFactor, scaleUpFactor);
-    } else {
-        this->ui->graphicsView_City_Map_Tiles->scale(scaleDownFactor, scaleDownFactor);
-    }
-}
-*/
 void Editor::zoomInCurrentImage() {
-    //
     if (imageOpen) {
-        //
         ImageView *img = openImages[focusedImage];
 
         img->scale_exp += 1.0;
@@ -150,16 +121,22 @@ void Editor::zoomInCurrentImage() {
         size *= scale;
 
         img->view->setMatrix(matrix);
-        img->view->setFixedSize(size.width() + 2, size.height() + 2);
-        // TODO: dont grow larger than the available space in the parent
-        //img->view->scale(2.0, 2.0);
+
+        int new_width = size.width() + 2;
+        int new_height = size.height() + 2;
+
+        if (new_width > ui->scrollArea_Image->size().width())
+            new_width = ui->scrollArea_Image->size().width();
+
+        if (new_height > ui->scrollArea_Image->size().height())
+            new_height = ui->scrollArea_Image->size().height();
+
+        img->view->setFixedSize(new_width, new_height);
     }
 }
 
 void Editor::zoomOutCurrentImage() {
-    //
     if (imageOpen) {
-        //
         ImageView *img = openImages[focusedImage];
 
         img->scale_exp -= 1.0;
@@ -170,8 +147,17 @@ void Editor::zoomOutCurrentImage() {
         size *= scale;
 
         img->view->setMatrix(matrix);
-        img->view->setFixedSize(size.width() + 2, size.height() + 2);
-        //img->view->scale(2.0, 2.0);
+        
+        int new_width = size.width() + 2;
+        int new_height = size.height() + 2;
+
+        if (new_width > ui->scrollArea_Image->size().width())
+            new_width = ui->scrollArea_Image->size().width();
+
+        if (new_height > ui->scrollArea_Image->size().height())
+            new_height = ui->scrollArea_Image->size().height();
+
+        img->view->setFixedSize(new_width, new_height);
     }
 }
 

@@ -48,27 +48,10 @@ void MainWindow::on_action_New_triggered() {
 }
 
 void MainWindow::on_action_Open_triggered() {
-    //
     QString imgFile = QFileDialog::getOpenFileName(this, "Open File", ".", "Images (*.png *.bmp)");// *.*bpp 
     if (imgFile.isEmpty()) return;
 
     this->editor->openImage(imgFile);
-    //this->editor->openImages.append(new ImageView(this->ui->scrollArea_Image, imgFile));
-    //this->editor->openImages.last()->setAttribute(Qt::WA_DeleteOnClose);
-    //this->editor->openImages.last()->show();
-    //this->editor->setupPaletteViewer(editor->openImages.last()->image->palette);
-
-    ///// use .last() instead of editor->openImages[editor->openImages.size() - 1]
-    //connect(editor->openImages.last(), &ImageView::shouldDeletePalette, this->editor, &Editor::deletePaletteViewer);
-/*
-    if (!this->editor->openImages[editor->openImages.size() - 1]->isVisible()) {
-        this->editor->openImages[editor->openImages.size() - 1]->show();
-    } else if (this->editor->openImages[editor->openImages.size() - 1]->isMinimized()) {
-        this->editor->openImages[editor->openImages.size() - 1]->showNormal();
-    } else {
-        this->editor->openImages[editor->openImages.size() - 1]->activateWindow();
-    }
-//*/
 }
 
 void MainWindow::on_action_SaveAll_triggered() {

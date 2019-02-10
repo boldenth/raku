@@ -110,6 +110,8 @@ void ImageView::mouseMoveEvent(QMouseEvent *event) {
     y = y > 0 ? y : this->y();
 
     // TODO: figure out how to only move when cursor is over the widget
+    //       in specific direction
+    //       or let go when not over dock widget
     //if (event->localPos().x() < this->x()) x = 0;
     //if (event->localPos().y() < this->y()) y = 0;
 
