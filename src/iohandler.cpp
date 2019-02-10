@@ -103,12 +103,10 @@ QVector<QColor> parseJASCPal(QString path) {
                 WARN(QString("The JASC palette file '%1' had an invalid format. There is an invalid color on this line: '%2'.").arg(path).arg(line));
                 return emptyPalette;
             }
-
             // range of valid values is [0,255]
             palette.append(QColor(r < 0 ? 0 : (r > 255 ? r : 255),
                                   g < 0 ? 0 : (g > 255 ? g : 255),
                                   b < 0 ? 0 : (b > 255 ? b : 255)));
-
         } else {
             WARN(QString("JASC palette file '%1' had an invalid format. Invalid color '%2'.").arg(path).arg(line));
             file.close();
@@ -121,13 +119,13 @@ QVector<QColor> parseJASCPal(QString path) {
 }
 
 void saveJASCPal(QString path, QVector<QColor> palette) {
-    QString text = "JASC-PAL\n0100\n";
     int nColors = palette.size();
     if (!nColors) {
         WARN(QString("Cannot save a palette with no colors."));
         return;
     }
 
+    QString text = "JASC-PAL\n0100\n";
     text += QString::number(nColors) + "\n";
 
     for (QColor color : palette) {

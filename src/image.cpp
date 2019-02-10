@@ -40,7 +40,10 @@ void Image::loadPalette() {
     this->palette = newPalette;
 }
 
-
+void Image::paint(QGraphicsSceneMouseEvent* event) {
+    //
+    qDebug() << "paint on image";
+}
 
 
 

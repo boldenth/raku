@@ -3,6 +3,7 @@
 
 #include <QFileDialog>
 #include <QDebug>
+#include <QShortcut>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -13,6 +14,11 @@ MainWindow::MainWindow(QWidget *parent) :
     QCoreApplication::setOrganizationName("boldenth");
     QCoreApplication::setApplicationName("raku");
     QApplication::setApplicationDisplayName("raku");
+
+    QShortcut *shortcut_zoom_in = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this);
+    connect(shortcut_zoom_in, &QShortcut::activated, this, &MainWindow::zoomInCurrentImage);
+    QShortcut *shortcut_zoom_out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this);
+    connect(shortcut_zoom_out, &QShortcut::activated, this, &MainWindow::zoomOutCurrentImage);
 
     this->initialize();
 }
@@ -37,42 +43,21 @@ void MainWindow::setupWidgets() {
     //this->ui->scrollArea_Image->setDockNestingEnabled(true);
 }
 
+void MainWindow::zoomInCurrentImage() {
+    //
+    if (editor->imageOpen) {
+        //
+    }
+    qDebug() << "zoomInCurrentImage";
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void MainWindow::zoomOutCurrentImage() {
+    //
+    if (editor->imageOpen) {
+        //
+    }
+    qDebug() << "zoomOutCurrentImage";
+}
 
 void MainWindow::on_action_New_triggered() {
     //
@@ -83,13 +68,14 @@ void MainWindow::on_action_Open_triggered() {
     QString imgFile = QFileDialog::getOpenFileName(this, "Open File", ".", "Images (*.png *.bmp)");// *.*bpp 
     if (imgFile.isEmpty()) return;
 
-    this->editor->openImages.append(new ImageView(this->ui->scrollArea_Image, imgFile));
-    this->editor->openImages.last()->setAttribute(Qt::WA_DeleteOnClose);
-    this->editor->openImages.last()->show();
-    this->editor->setupPaletteViewer(editor->openImages.last()->image->palette);
+    this->editor->openImage(imgFile);
+    //this->editor->openImages.append(new ImageView(this->ui->scrollArea_Image, imgFile));
+    //this->editor->openImages.last()->setAttribute(Qt::WA_DeleteOnClose);
+    //this->editor->openImages.last()->show();
+    //this->editor->setupPaletteViewer(editor->openImages.last()->image->palette);
 
-    // use .last() instead of editor->openImages[editor->openImages.size() - 1]
-    connect(editor->openImages.last(), &ImageView::shouldDeletePalette, this->editor, &Editor::deletePaletteViewer);
+    ///// use .last() instead of editor->openImages[editor->openImages.size() - 1]
+    //connect(editor->openImages.last(), &ImageView::shouldDeletePalette, this->editor, &Editor::deletePaletteViewer);
 /*
     if (!this->editor->openImages[editor->openImages.size() - 1]->isVisible()) {
         this->editor->openImages[editor->openImages.size() - 1]->show();

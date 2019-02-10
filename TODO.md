@@ -10,3 +10,7 @@
 - right click on color opens window to change it
 - drag ImageView to move within widget
 - BUG: fix crash when opening image after closing image
+- support tilesets
+- export as tileset + tilemap
+- support sprite animations (save as .gif or spritesheets)
+- layers (layers as animation)

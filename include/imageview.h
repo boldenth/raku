@@ -29,16 +29,21 @@ public:
     QGraphicsScene *scene = nullptr;
 
     Image *image = nullptr;
-    QImage img;
     QPixmap pixmap;
 
-    bool eventFilter(QObject *watched, QEvent *event)
+    bool eventFilter(QObject *object, QEvent *event)
     {
-        if(event->type() == QMouseEvent::HoverEnter) {
+        //if (object == this->sizeGrip)
+        if (event->type() == QMouseEvent::HoverEnter) {
             setCursor(Qt::OpenHandCursor);
         }
-        else if(event->type() == QMouseEvent::HoverLeave) {
+        else if (event->type() == QMouseEvent::HoverLeave) {
             unsetCursor();
+        }
+        else if (event->type() == QEvent::MouseButtonPress) {
+            //qDebug() << event->type();
+            //image->scene
+            return true;
         }
         return false;
     }
@@ -60,6 +65,11 @@ protected:
 public slots:
 
     void closeEvent(QCloseEvent *event);
+
+private slots:
+
+    void mouseEvent_image(QGraphicsSceneMouseEvent *, Image *);
+    //void mousePressEvent_titleBar(QMouseEvent *event);
 
 signals:
     void shouldDeletePalette();

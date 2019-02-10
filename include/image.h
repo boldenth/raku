@@ -6,6 +6,7 @@
 #include <QImage>
 #include <QPixmap>
 #include <QGraphicsPixmapItem>
+#include <QGraphicsSceneMouseEvent>
 
 
 
@@ -35,7 +36,7 @@ public:
     // TODO: make private and use access function
     QVector<QColor> *palette = nullptr;
 
-    //virtual void paint(QGraphicsSceneMouseEvent*);
+    virtual void paint(QGraphicsSceneMouseEvent*);
     //virtual void select(QGraphicsSceneMouseEvent*);
     //virtual void pick(QGraphicsSceneMouseEvent*);
     //virtual void shift(QGraphicsSceneMouseEvent*);
@@ -44,13 +45,16 @@ public:
 private:
 
     void init();
-    void loadImage(QString);
+    void loadImage(QString path);
     void loadPalette();
 
     int mode;// BPP (is this different from num colors in index?)
 
     QString path;
 
+signals:
+
+    void mouseEvent(QGraphicsSceneMouseEvent *, Image *);
 
 };
 

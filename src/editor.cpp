@@ -9,6 +9,17 @@ Editor::Editor(Ui::MainWindow* ui)
 
 
 
+void Editor::openImage(QString imgFile) {
+    //
+    this->openImages.append(new ImageView(this->ui->scrollArea_Image, imgFile));
+    this->openImages.last()->setAttribute(Qt::WA_DeleteOnClose);
+    this->openImages.last()->show();
+    this->setupPaletteViewer(this->openImages.last()->image->palette);
+    this->focusedImage++;
+    this->imageOpen = true;
+
+    connect(this->openImages.last(), &ImageView::shouldDeletePalette, this, &Editor::deletePaletteViewer);
+}
 
 void Editor::deletePaletteViewer() {
     QLayout *layout = ui->groupBox_Palette->layout();

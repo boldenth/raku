@@ -32,6 +32,9 @@ private:
 
     void setupWidgets();
 
+    void zoomInCurrentImage();
+    void zoomOutCurrentImage();
+
 private slots:
     void on_action_New_triggered();
     void on_action_Open_triggered();

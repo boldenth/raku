@@ -41,12 +41,15 @@ public:
     double scale_base = sqrt(2); // adjust scale factor with this
 
     int selectedColor = 0;
-    int focusedImage = 0;// index of open color
+    int focusedImage = -1;// index of open color
+
+    bool imageOpen = false;
 
     void save();
     void undo();
     void redo();
 
+    void openImage(QString imgFile);
     void displayImage();
     void updateImage();
     void updateView();
