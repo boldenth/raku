@@ -2,6 +2,13 @@
 
 #include <QDebug>
 #include <QMatrix>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QMessageBox>
+#include <QFormLayout>
+#include <QLabel>
+#include <QSpinBox>
+#include <QPushButton>
 #include <math.h>
 
 Editor::Editor(Ui::MainWindow* ui)
@@ -109,6 +116,7 @@ void Editor::colorChange(int index) {
     updatePaletteColor(index, newColor);
 }
 
+// TODO: does this not scale properly when not square?
 void Editor::zoomInCurrentImage() {
     if (imageOpen) {
         ImageView *img = openImages[focusedImage];
@@ -161,6 +169,71 @@ void Editor::zoomOutCurrentImage() {
     }
 }
 
+void Editor::toggleGrid(bool visible) {
+    if (focusedImage < 0) return;
 
+    openImages[focusedImage]->drawGrid(visible);
+}
+
+void Editor::configureGrid() {
+    if (focusedImage < 0) return;
+
+    QDialog popup(nullptr, Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+    popup.setWindowTitle("Configure Grid");
+    popup.setWindowModality(Qt::NonModal);
+
+    QFormLayout form(&popup);
+
+    ImageView *focus = openImages[focusedImage];
+    int grid_width, grid_height;
+    QColor grid_color;
+
+    QSpinBox *width_box = new QSpinBox();
+    width_box->setMinimum(1);
+    width_box->setMaximum(focus->image->pixmap().width() / 2);
+    form.addRow(new QLabel("grid horizontal spacing (pixels):"), width_box);
+
+    QSpinBox *height_box = new QSpinBox();
+    height_box->setMinimum(1);
+    height_box->setMaximum(focus->image->pixmap().height() / 2);
+    form.addRow(new QLabel("grid vertical spacing (pixels):"), height_box);
+
+    // TODO: add grid pattern on this button
+    QPushButton *color_box = new QPushButton();
+    color_box->setAutoFillBackground(true);
+    grid_color = focus->gridColor;
+    QString stylesheet = QString("background-color: rgb(%1, %2, %3); color: rgb(%1, %2, %3)")
+                                 .arg(grid_color.red())
+                                 .arg(grid_color.green())
+                                 .arg(grid_color.blue());;
+    color_box->setStyleSheet(stylesheet);
+    form.addRow(new QLabel("grid line color:"), color_box);
+    color_box->show();
+
+    QDialogButtonBox button_box(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &popup);
+
+    form.addRow(&button_box);
+
+    connect(color_box, &QPushButton::pressed, [&grid_color, &color_box](){
+        grid_color = QColorDialog::getColor(grid_color);
+        QString stylesheet = QString("background-color: rgb(%1, %2, %3); color: rgb(%1, %2, %3)")
+                                 .arg(grid_color.red())
+                                 .arg(grid_color.green())
+                                 .arg(grid_color.blue());;
+        color_box->setStyleSheet(stylesheet);
+    });
+    connect(&button_box, SIGNAL(rejected()), &popup, SLOT(reject()));
+    connect(&button_box, &QDialogButtonBox::accepted, [&popup, &width_box, &height_box, &color_box, 
+                                                       &grid_width, &grid_height, &grid_color](){
+        grid_width = width_box->value();
+        grid_height = height_box->value();
+        grid_color = grid_color;
+        popup.accept();
+    });
+
+    if (popup.exec() == QDialog::Accepted) {
+        focus->configureGrid(grid_width, grid_height, grid_color);
+    }
+}
 
 

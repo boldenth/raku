@@ -62,9 +62,15 @@ void MainWindow::on_action_SaveAll_triggered() {
     //
 //}
 
+void MainWindow::on_actionShow_Grid_toggled() {
+    //qDebug() << "on_actionShow_Grid_toggled" << ui->actionShow_Grid->isChecked();
+    this->editor->toggleGrid(ui->actionShow_Grid->isChecked());//ui->action_ToggleGrid->isChecked());
+}
 
-
-
+void MainWindow::on_actionConfigure_triggered() {
+    //qDebug() << "on_actionConfigure_triggered";
+    this->editor->configureGrid();
+}
 
 
 

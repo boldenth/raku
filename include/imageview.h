@@ -33,14 +33,22 @@ public:
     QPixmap pixmap;
 
     double scale_exp  = 1.0;
-    double scale_base = 2.0;//sqrt(2); // adjust scale factor with this
+    double scale_base = 2.0;
 
+    int gridWidth = 1;
+    int gridHeight = 1;
+    QColor gridColor = Qt::darkGray;
     bool showGrid = false;
+    void configureGrid(int w, int h, QColor c);
+    void drawGrid(bool visible = false);
+
+    QVector<QGraphicsLineItem*> gridlines;
 
     bool eventFilter(QObject *object, QEvent *event)
     {
         //if (object == this->sizeGrip)
         if (event->type() == QMouseEvent::HoverEnter) {
+            //if (event->localPos().y() > 22) return true;
             setCursor(Qt::OpenHandCursor);
         }
         else if (event->type() == QMouseEvent::HoverLeave) {

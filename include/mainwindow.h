@@ -37,6 +37,8 @@ private slots:
     void on_action_Open_triggered();
     void on_action_SaveAll_triggered();
     //void on_action_SaveAs_triggered();
+    void on_actionShow_Grid_toggled();
+    void on_actionConfigure_triggered();
 };
 
 #endif // MAINWINDOW_H

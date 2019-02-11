@@ -52,6 +52,8 @@ public:
     void updateView();
     void zoomInCurrentImage();
     void zoomOutCurrentImage();
+    void configureGrid();
+    void toggleGrid(bool visible = false);
 
     void colorClicked(int index);
     void colorChange(int index);

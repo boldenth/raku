@@ -105,7 +105,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>403</width>
+             <width>379</width>
              <height>293</height>
             </rect>
            </property>
@@ -149,6 +149,14 @@
     <property name="title">
      <string>View</string>
     </property>
+    <widget class="QMenu" name="menuGrid">
+     <property name="title">
+      <string>Grid</string>
+     </property>
+     <addaction name="actionShow_Grid"/>
+     <addaction name="actionConfigure"/>
+    </widget>
+    <addaction name="menuGrid"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -200,6 +208,47 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="action_ToggleGrid">
+   <property name="text">
+    <string>Toggle Grid</string>
+   </property>
+  </action>
+  <action name="action_ConfigureGrid">
+   <property name="text">
+    <string>Configure Grid ...</string>
+   </property>
+   <property name="shortcut">
+    <string/>
+   </property>
+  </action>
+  <action name="action_ConfigGrid">
+   <property name="text">
+    <string>cfuuu</string>
+   </property>
+  </action>
+  <action name="actionConfigure_Grid">
+   <property name="text">
+    <string>Configure Grid</string>
+   </property>
+  </action>
+  <action name="actioncfgrd">
+   <property name="text">
+    <string>cfgrd</string>
+   </property>
+  </action>
+  <action name="actionShow_Grid">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Grid</string>
+   </property>
+  </action>
+  <action name="actionConfigure">
+   <property name="text">
+    <string>Configure</string>
    </property>
   </action>
  </widget>

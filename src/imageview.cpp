@@ -77,6 +77,45 @@ void ImageView::closeEvent(QCloseEvent *event) {
     QDockWidget::closeEvent(event);
 }
 
+void ImageView::configureGrid(int width, int height, QColor color) {
+    //
+    this->gridWidth = width;
+    this->gridHeight = height;
+    this->gridColor = color;
+    //this->showGrid = false;// temp hack
+    drawGrid(true);// TODO: make sure this doesn't toggle
+}
+
+void ImageView::drawGrid(bool visible) {
+    this->showGrid = visible;// toggle grid visibility
+
+    for (QGraphicsLineItem* item : gridlines) {
+        if (item && item->scene()) {
+            item->scene()->removeItem(item);
+        }
+        delete item;
+    }
+
+    int w = this->image->pixmap().width();
+    int h = this->image->pixmap().height();
+
+    QPen pen(this->gridColor);
+    pen.setWidth(0);
+
+    for (int x = 0; x <= w; x += this->gridWidth) {
+        //
+        QGraphicsLineItem *line = scene->addLine(x, 0, x, h, pen);
+        line->setVisible(showGrid);
+        gridlines.append(line);
+    }
+    for (int y = 0; y <= h; y += this->gridHeight) {
+        //
+        QGraphicsLineItem *line = scene->addLine(0, y, w, y, pen);
+        line->setVisible(showGrid);
+        gridlines.append(line);
+    }
+}
+
 // TODO: check whether inside scene or not? or just activate on titleBarWidget?
 void ImageView::mousePressEvent(QMouseEvent *event) {
     //
