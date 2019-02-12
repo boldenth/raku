@@ -46,6 +46,7 @@ public:
     void undo();
     void redo();
 
+    void createNewImage(int width, int height, int ncolors);
     void openImage(QString imgFile);
     void displayImage();
     void updateImage();

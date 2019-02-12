@@ -4,6 +4,12 @@
 #include <QFileDialog>
 #include <QDebug>
 #include <QShortcut>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QMessageBox>
+#include <QFormLayout>
+#include <QLabel>
+#include <QSpinBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -44,7 +50,40 @@ void MainWindow::setupWidgets() {
 }
 
 void MainWindow::on_action_New_triggered() {
-    //
+    QDialog popup(this, Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+    popup.setWindowTitle("Create New Image");
+    popup.setWindowModality(Qt::NonModal);
+
+    QFormLayout form(&popup);
+
+    int width, height, ncolors;
+
+    QSpinBox *width_box = new QSpinBox();
+    width_box->setMinimum(1);
+    form.addRow(new QLabel("new image width (pixels):"), width_box);
+
+    QSpinBox *height_box = new QSpinBox();
+    height_box->setMinimum(1);
+    form.addRow(new QLabel("new image height (pixels):"), height_box);
+
+    QSpinBox *color_box = new QSpinBox();
+    color_box->setMinimum(1);
+    form.addRow(new QLabel("number of colors:"), color_box);
+
+    QDialogButtonBox button_box(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &popup);
+    form.addRow(&button_box);
+
+    connect(&button_box, SIGNAL(rejected()), &popup, SLOT(reject()));
+    connect(&button_box, &QDialogButtonBox::accepted, [&popup, &width_box, &height_box, &color_box, &width, &height, &ncolors](){
+        width = width_box->value();
+        height = height_box->value();
+        ncolors = color_box->value();
+        popup.accept();
+    });
+
+    if (popup.exec() == QDialog::Accepted) {
+        editor->createNewImage(width, height, ncolors);
+    }
 }
 
 void MainWindow::on_action_Open_triggered() {
@@ -63,12 +102,10 @@ void MainWindow::on_action_SaveAll_triggered() {
 //}
 
 void MainWindow::on_actionShow_Grid_toggled() {
-    //qDebug() << "on_actionShow_Grid_toggled" << ui->actionShow_Grid->isChecked();
     this->editor->toggleGrid(ui->actionShow_Grid->isChecked());//ui->action_ToggleGrid->isChecked());
 }
 
 void MainWindow::on_actionConfigure_triggered() {
-    //qDebug() << "on_actionConfigure_triggered";
     this->editor->configureGrid();
 }
 

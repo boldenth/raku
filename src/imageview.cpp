@@ -63,6 +63,48 @@ ImageView::ImageView(QWidget *parent, QString imgFile) :
     //installEventFilter(this);
 }
 
+ImageView::ImageView(QWidget *parent, int width, int height, int ncolors) :
+    QDockWidget(parent, Qt::SubWindow),
+    ui(new Ui::ImageView)
+{
+    ui->setupUi(this);
+    this->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable);
+    this->setAllowedAreas(Qt::TopDockWidgetArea);
+
+    this->image = new Image(width, height, ncolors);
+    connect(image, &Image::mouseEvent, this, &ImageView::mouseEvent_image);
+
+    this->view = new QGraphicsView();
+    this->scene = new QGraphicsScene();
+
+    // scene add Image class which inherits QGraphicsPixmapItem
+    scene->addItem(image);
+    scene->setSceneRect(scene->itemsBoundingRect());
+    view->setScene(scene);
+    view->scale(2, 2);
+    QSize size = scene->itemsBoundingRect().size().toSize() * 2;
+    view->setFixedSize(size.width() + 2, size.height() + 2);
+
+    this->setWidget(this->view);
+
+    // TODO: make random (but light colors)? for each new window so colors are different for images
+    int red = 200, green = 50, blue = 105;
+    QString stylesheet = QString("background-color: rgb(%1, %2, %3);")
+            .arg(red)
+            .arg(green)
+            .arg(blue);
+    this->setStyleSheet(stylesheet);
+
+    //connect(this->ui->dockWidget, &QDockWidget::dockLocationChanged, this, &ImageView::close);
+    this->setMouseTracking(false);
+    this->setAttribute(Qt::WA_Hover);
+
+    int n = 1;
+    this->setWindowTitle(QString("new image %1").arg(n));
+
+    //installEventFilter(this);
+}
+
 ImageView::~ImageView()
 {
     delete image;

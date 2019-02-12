@@ -18,6 +18,18 @@ Editor::Editor(Ui::MainWindow* ui)
 
 
 
+void Editor::createNewImage(int width, int height, int ncolors) {
+    //
+    this->openImages.append(new ImageView(this->ui->scrollArea_Image, width, height, ncolors));
+    this->openImages.last()->setAttribute(Qt::WA_DeleteOnClose);
+    this->openImages.last()->show();
+    this->setupPaletteViewer(this->openImages.last()->image->palette);
+    this->focusedImage++;
+    this->imageOpen = true;
+
+    connect(this->openImages.last(), &ImageView::shouldDeletePalette, this, &Editor::deletePaletteViewer);
+}
+
 void Editor::openImage(QString imgFile) {
     //
     this->openImages.append(new ImageView(this->ui->scrollArea_Image, imgFile));

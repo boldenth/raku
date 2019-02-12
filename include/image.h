@@ -29,6 +29,15 @@ public:
         setAcceptHoverEvents(true);
         init();
     }
+    Image(int width, int height, int ncolors) : QGraphicsPixmapItem(QPixmap(width, height)), QImage(width, height, QImage::Format_Indexed8) {
+        this->palette = new QVector<QColor>;
+        for (int i = 0; i < ncolors; i++) {
+            palette->append(Qt::white);
+        }
+        //QImage::fill(0);
+        fill(0);
+        loadFromData(QByteArray(width * height, 0));
+    }
     //*
     //*/
     friend class ImageView;

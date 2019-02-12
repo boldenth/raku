@@ -24,6 +24,7 @@ class ImageView : public QDockWidget
 
 public:
     explicit ImageView(QWidget *parent = nullptr, QString imgFile = QString());
+    ImageView(QWidget *parent = nullptr, int width = 64, int height = 64, int ncolors = 16);
     ~ImageView();
 
     QGraphicsView  *view  = nullptr;
