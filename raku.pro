@@ -38,5 +38,7 @@ FORMS += \
         forms/mainwindow.ui \
         forms/imageview.ui
 
+RESOURCES += resources/fonts.qrc
+
 INCLUDEPATH += \
         include

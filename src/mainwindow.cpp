@@ -10,6 +10,7 @@
 #include <QFormLayout>
 #include <QLabel>
 #include <QSpinBox>
+#include <QFont>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -44,7 +45,15 @@ void MainWindow::setupWidgets() {
     connect(shortcut_zoom_in, &QShortcut::activated, this->editor, &Editor::zoomInCurrentImage);
     QShortcut *shortcut_zoom_out = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this);
     connect(shortcut_zoom_out, &QShortcut::activated, this->editor, &Editor::zoomOutCurrentImage);
-    //setupPaletteViewer(16);
+
+    QFont font("Font Awesome 5 Free");
+    font.setPixelSize(64);
+    this->ui->toolButton_Pencil->setStyleSheet("font-family: Font Awesome 5 Free");
+    this->ui->toolButton_Pencil->setText("\uf303");
+    this->ui->toolButton_Dropper->setStyleSheet("font-family: Font Awesome 5 Free");
+    this->ui->toolButton_Dropper->setText("\uf1fb");
+    this->ui->toolButton_Bucket->setStyleSheet("font-family: Font Awesome 5 Free");
+    this->ui->toolButton_Bucket->setText("\uf576");
 
     //this->ui->scrollArea_Image->setDockNestingEnabled(true);
 }
