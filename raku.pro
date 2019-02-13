@@ -24,7 +24,8 @@ SOURCES += \
         src/image.cpp \
         src/colorbox.cpp \
         src/imageview.cpp \
-        src/iohandler.cpp
+        src/iohandler.cpp \
+        src/settings.cpp
 
 HEADERS += \
         include/mainwindow.h \
@@ -32,7 +33,8 @@ HEADERS += \
         include/editor.h \
         include/colorbox.h \
         include/imageview.h \
-        include/iohandler.h
+        include/iohandler.h \
+        include/settings.h
 
 FORMS += \
         forms/mainwindow.ui \

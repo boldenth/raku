@@ -12,6 +12,7 @@
 #include "colorbox.h"
 #include "imageview.h"
 #include "image.h"
+#include "settings.h"
 #include "ui_mainwindow.h"
 
 /*
@@ -36,6 +37,9 @@ public:
     QVector<QRgb> rgbpal;
     QList<ColorBox*> colorBlocks;
     QList<ImageView*> openImages;
+
+    //Settings settings;
+    QString editMode;
 
     int selectedColor = 0;
     int focusedImage = -1;// index of open color

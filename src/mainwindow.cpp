@@ -11,6 +11,9 @@
 #include <QLabel>
 #include <QSpinBox>
 #include <QFont>
+#include <QCursor>
+
+#include "settings.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -54,8 +57,14 @@ void MainWindow::setupWidgets() {
     this->ui->toolButton_Dropper->setText("\uf1fb");
     this->ui->toolButton_Bucket->setStyleSheet("font-family: Font Awesome 5 Free");
     this->ui->toolButton_Bucket->setText("\uf576");
+    this->ui->toolButton_Crop->setStyleSheet("font-family: Font Awesome 5 Free");
+    this->ui->toolButton_Crop->setText("\uf125");
+    this->ui->toolButton_Shift->setStyleSheet("font-family: Font Awesome 5 Free");
+    this->ui->toolButton_Shift->setText("\uf101");
 
     //this->ui->scrollArea_Image->setDockNestingEnabled(true);
+
+    on_toolButton_Pencil_clicked();
 }
 
 void MainWindow::on_action_New_triggered() {
@@ -118,10 +127,50 @@ void MainWindow::on_actionConfigure_triggered() {
     this->editor->configureGrid();
 }
 
+void MainWindow::on_toolButton_Pencil_clicked() {
+    //
+    GlobalSettings.cursor = Qt::CrossCursor;
+    this->editor->editMode = "pencil";
+    checkToolButtons();
+    //this->ui->toolButton_Pencil->setChecked(true);
+}
 
+void MainWindow::on_toolButton_Dropper_clicked() {
+    //
+    GlobalSettings.cursor = Qt::PointingHandCursor;
+    this->editor->editMode = "dropper";
+    checkToolButtons();
+}
 
+void MainWindow::on_toolButton_Bucket_clicked() {
+    //
+    GlobalSettings.cursor = Qt::WaitCursor;
+    this->editor->editMode = "fill";
+    checkToolButtons();
+}
 
+void MainWindow::on_toolButton_Crop_clicked() {
+    //
+    GlobalSettings.cursor = Qt::SplitHCursor;
+    this->editor->editMode = "crop";
+    checkToolButtons();
+}
 
+void MainWindow::on_toolButton_Shift_clicked() {
+    //
+    GlobalSettings.cursor = Qt::OpenHandCursor;
+    this->editor->editMode = "shift";
+    checkToolButtons();
+}
+
+// TODO: why are the buttons so messed up????
+void MainWindow::checkToolButtons() {
+    this->ui->toolButton_Pencil->setChecked(this->editor->editMode == "pencil");
+    this->ui->toolButton_Dropper->setChecked(this->editor->editMode == "dropper");
+    this->ui->toolButton_Bucket->setChecked(this->editor->editMode == "fill");
+    this->ui->toolButton_Crop->setChecked(this->editor->editMode == "crop");
+    this->ui->toolButton_Shift->setChecked(this->editor->editMode == "shift");
+}
 
 
 

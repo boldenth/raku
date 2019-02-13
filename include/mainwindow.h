@@ -31,6 +31,7 @@ private:
     void restore();
 
     void setupWidgets();
+    void checkToolButtons();
 
 private slots:
     void on_action_New_triggered();
@@ -39,6 +40,12 @@ private slots:
     //void on_action_SaveAs_triggered();
     void on_actionShow_Grid_toggled();
     void on_actionConfigure_triggered();
+
+    void on_toolButton_Pencil_clicked();
+    void on_toolButton_Dropper_clicked();
+    void on_toolButton_Bucket_clicked();
+    void on_toolButton_Crop_clicked();
+    void on_toolButton_Shift_clicked();
 };
 
 #endif // MAINWINDOW_H

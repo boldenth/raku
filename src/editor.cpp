@@ -14,6 +14,8 @@
 Editor::Editor(Ui::MainWindow* ui)
 {
     this->ui = ui;
+    this->editMode = "pencil"
+    //this->settings = Settings();
 }
 
 
@@ -61,8 +63,8 @@ void Editor::setupPaletteViewer(QVector<QColor> *palette) {
     paletteViewer->setContentsMargins(0,0,0,0);
 
     // TODO: find good formulas for this
-    int size = 512 / nColors;
-    int width = nColors / 8 ? nColors / 8 : 2;
+    int size = 16;//512 / nColors;
+    int width = 4;//nColors / 8 ? nColors / 8 : 2;
 
     // connect to mouseGrabber for reordering?
     for (int i = 0; i < nColors; i++) {

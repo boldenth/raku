@@ -2,6 +2,7 @@
 #define IMAGEVIEW_H
 
 #include "image.h"
+#include "settings.h"
 
 #include <QWidget>
 #include <QDockWidget>
@@ -50,7 +51,7 @@ public:
         //if (object == this->sizeGrip)
         if (event->type() == QMouseEvent::HoverEnter) {
             //if (event->localPos().y() > 22) return true;
-            setCursor(Qt::OpenHandCursor);
+            setCursor(GlobalSettings.cursor);
         }
         else if (event->type() == QMouseEvent::HoverLeave) {
             unsetCursor();
@@ -88,6 +89,7 @@ private slots:
 
 signals:
     void shouldDeletePalette();
+    void paintOnImage(int x, int y);
 };
 
 #endif // IMAGEVIEW_H

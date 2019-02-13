@@ -60,7 +60,7 @@ ImageView::ImageView(QWidget *parent, QString imgFile) :
 
     this->setWindowTitle(imgFile.split("/").last());
 
-    //installEventFilter(this);
+    installEventFilter(this);
 }
 
 ImageView::ImageView(QWidget *parent, int width, int height, int ncolors) :
@@ -107,6 +107,7 @@ ImageView::ImageView(QWidget *parent, int width, int height, int ncolors) :
 
 ImageView::~ImageView()
 {
+    // emit signal for editor to change focused image
     delete image;
     delete scene;
     delete view;
@@ -165,6 +166,7 @@ void ImageView::mousePressEvent(QMouseEvent *event) {
 
     if (event->localPos().y() > 22) {
         // clicking on the scene
+        //emit paintOnImage(event->localPos().y() - 22, event->localPos().x());
         return;
     }
 
