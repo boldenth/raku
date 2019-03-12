@@ -40,11 +40,12 @@ void Image::loadPalette() {
     this->palette = newPalette;
 }
 
-void Image::paint(QGraphicsSceneMouseEvent* event) {
-    //
-    qDebug() << "paint on image";
+void Image::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+    //int x = static_cast<int>(pos.x()) / 16;
+    //int y = static_cast<int>(pos.y()) / 16;
+    qDebug() << "Image::mousePressEvent";
+    emit mouseEvent(event, this);
 }
-
 
 
 

@@ -50,6 +50,8 @@ public:
     void undo();
     void redo();
 
+    void paint(QGraphicsSceneMouseEvent *event, Image *image);
+
     void createNewImage(int width, int height, int ncolors);
     void openImage(QString imgFile);
     void displayImage();

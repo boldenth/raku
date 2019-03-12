@@ -11,6 +11,7 @@
 #include "colorbox.h"
 #include "imageview.h"
 
+
 namespace Ui {
 class MainWindow;
 }

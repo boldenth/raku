@@ -14,7 +14,7 @@
 Editor::Editor(Ui::MainWindow* ui)
 {
     this->ui = ui;
-    this->editMode = "pencil"
+    this->editMode = "pencil";
     //this->settings = Settings();
 }
 
@@ -42,6 +42,9 @@ void Editor::openImage(QString imgFile) {
     this->imageOpen = true;
 
     connect(this->openImages.last(), &ImageView::shouldDeletePalette, this, &Editor::deletePaletteViewer);
+    connect(this->openImages.last(), &ImageView::paintOnImage, this, &Editor::paint);
+    //connect(this->openImages.last(), SLOT(paintOnImage), this, SIGNAL(paint));
+    //connect(this->openImages.last()->image, SLOT(mouseEvent), this, SIGNAL(paint));
 }
 
 void Editor::deletePaletteViewer() {
@@ -248,6 +251,13 @@ void Editor::configureGrid() {
     if (popup.exec() == QDialog::Accepted) {
         focus->configureGrid(grid_width, grid_height, grid_color);
     }
+}
+
+void Editor::paint(QGraphicsSceneMouseEvent *event, Image *image) {
+    //
+    int x = static_cast<int>(event->pos().x());
+    int y = static_cast<int>(event->pos().y());
+    qDebug() << "paint:" << x << y;
 }
 
 

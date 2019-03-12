@@ -24,6 +24,7 @@ class Image : public QObject, public QGraphicsPixmapItem, public QImage {
     Q_OBJECT
 
 public:
+
     Image(QString path_) : QGraphicsPixmapItem(QPixmap(path_)), QImage(path_) {//, QImage::Format_Indexed8) {
         this->path = path_;
         setAcceptHoverEvents(true);
@@ -45,7 +46,7 @@ public:
     // TODO: make private and use access function
     QVector<QColor> *palette = nullptr;
 
-    virtual void paint(QGraphicsSceneMouseEvent*);
+    //virtual void paint(QGraphicsSceneMouseEvent*);
     //virtual void select(QGraphicsSceneMouseEvent*);
     //virtual void pick(QGraphicsSceneMouseEvent*);
     //virtual void shift(QGraphicsSceneMouseEvent*);
@@ -64,6 +65,10 @@ private:
 signals:
 
     void mouseEvent(QGraphicsSceneMouseEvent *, Image *);
+
+protected:
+
+    void mousePressEvent(QGraphicsSceneMouseEvent*);
 
 };
 

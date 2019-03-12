@@ -46,8 +46,7 @@ public:
 
     QVector<QGraphicsLineItem*> gridlines;
 
-    bool eventFilter(QObject *object, QEvent *event)
-    {
+    bool eventFilter(QObject *object, QEvent *event) {
         //if (object == this->sizeGrip)
         if (event->type() == QMouseEvent::HoverEnter) {
             //if (event->localPos().y() > 22) return true;
@@ -59,7 +58,6 @@ public:
         else if (event->type() == QEvent::MouseButtonPress) {
             //qDebug() << event->type();
             //image->scene
-            return true;
         }
         return false;
     }
@@ -89,7 +87,7 @@ private slots:
 
 signals:
     void shouldDeletePalette();
-    void paintOnImage(int x, int y);
+    void paintOnImage(QGraphicsSceneMouseEvent *event, Image *image);//(int x, int y);
 };
 
 #endif // IMAGEVIEW_H

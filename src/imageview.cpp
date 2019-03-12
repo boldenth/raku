@@ -60,6 +60,9 @@ ImageView::ImageView(QWidget *parent, QString imgFile) :
 
     this->setWindowTitle(imgFile.split("/").last());
 
+    // TODO: add this to next declaration when working
+    connect(this->image, &Image::mouseEvent, this, &ImageView::paintOnImage);
+
     installEventFilter(this);
 }
 
@@ -164,8 +167,9 @@ void ImageView::mousePressEvent(QMouseEvent *event) {
     //
     if (!(event->buttons() & Qt::LeftButton)) return;
 
-    if (event->localPos().y() > 22) {
+    if (event->localPos().y() > 24) {
         // clicking on the scene
+        //qDebug() << event->type();
         //emit paintOnImage(event->localPos().y() - 22, event->localPos().x());
         return;
     }
@@ -221,14 +225,9 @@ void ImageView::hoverLeaveEvent(QHoverEvent *event) {
 
 void ImageView::mouseEvent_image(QGraphicsSceneMouseEvent *event, Image *img) {
     //
-    qDebug() << "mouseEvent_image";
+    //qDebug() << "mouseEvent_image";
 }
-/*
-void ImageView::mousePressEvent_titleBar(QMouseEvent *event) {
-    //
-    qDebug() << "mousePressEvent_titleBar";
-}
-*/
+
 
 
 
